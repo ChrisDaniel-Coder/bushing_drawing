@@ -13,7 +13,7 @@
     <link type="text/css" rel="stylesheet" href="../css/ChenTao1.css" />
     <title>埋头衬套</title>
 </head>
-<body>
+<body onload="empty()">
 <h3 align="center">埋头衬套</h3><hr><br>
 <div id="datainput">
 	<form name = "myForm">
@@ -23,15 +23,28 @@
 				<caption>输入参数</caption>
 				<tr>
 					<th>
-						<label for="diameter">直径:</label>
+						<label for="fastenerType">紧固件类型:</label>
 					</th>
 					<td>
-						<input type="text"  id="mydiameter" value="8"/>
+						<select id="fastenerType" onchange="changeFastenerType()">
+							<option value="clinch">NAS1097铆钉</option>
+							<option value ="highLock-clearance">高锁-过盈配合</option>
+							<option value ="highLock-interference">高锁-标准干涉配合</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
 					<th>
-						<label for="height">高:</label>
+						<label for="">铆钉号</label>
+					</th>
+					<td>
+						<select id="fastenerID">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<label for="myheight">高:</label>
 					</th>
 					<td>
 						<input type="text" id="myheight" value="3.0"/>
@@ -39,7 +52,7 @@
 				</tr>
 				<tr>
 					<th>
-						<label for="chamfer">倒角:</label>
+						<label for="mychamfer">倒角:</label>
 					</th>
 					<td>
 						<input type="text" id="mychamfer" value="1.0"/>	
@@ -56,6 +69,7 @@
 		</fieldset>
 	</form>
 <div id="tip-label">
+	<input type="radio" name="" id="" value="" /> <br>
 	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label>
 </div>
 <div id="tip">
@@ -81,7 +95,53 @@
 
 </div>
 <script type="text/javascript">
+//创建一个数据库存储铆钉号和直径信息
+var request = indexedDB.open('fasterer_db', 1);  //数据库名和版本号，版本号必须为整数
+request.onerror = function(e){
+	console.log('连接数据库失败');
+}
+request.onsuccess = function(e){
+	console.log('连接数据库成功');
+}
+request.onupgradeneeded = function(e){
+    var db = e.target.result;
+	//创建对象仓库，db.createObjectStore接收两个参数，对象仓库名和js对象, 铆钉仓库
+    var store = db.createObjectStore('clinch', {keyPath: 'clinchID', autoIncrement: false});
+	//创建索引，三个参数：索引名、数据对象属性、unique（可选）为true代表索引值不能相同，false可以相同
+	store.createIndex('holeDiamIndex','holeDiam',{unique:false});
+	stroe.createIndex('dimpleDiamIndex','dimpleDiam',{unique:false});
+}
 
+//var db = openDatabase('fasterer_db','1.0','fastenertypeAndDiameter',)
+//将下拉框置空
+function empty()
+{
+	var x = document.getElementById("fastenerType");
+    x.selectedIndex = -1;
+}
+
+var fastenerNum = {};
+fastenerNum["clinch"] = ["NAS1097-3","NAS1097-4","NAS1097-5","NAS1097-6","NAS1097-8"];
+fastenerNum["highLock-clearance"] = ["高锁-5","高锁-6","高锁-8","高锁-10",
+									"高锁-12","高锁-14","高锁-16","高锁-18","高锁-20"];
+fastenerNum["highLock-interference"] = ["高锁-5","高锁-6","高锁-8","高锁-10",
+									"高锁-12","高锁-14","高锁-16","高锁-18","高锁-20"];
+//紧固件类型改变铆钉号随着改变
+function changeFastenerType(){
+	var fastenerTypeList = document.getElementById("fastenerType");
+	var fastenerIDList = document.getElementById("fastenerID");
+	var selFastenerType = fastenerTypeList.options[fastenerTypeList.selectedIndex].value;
+	while(fastenerIDList.options.length){
+		fastenerIDList.remove(0);
+	}
+	var fasteners = fastenerNum[selFastenerType];
+	if(fasteners){
+		for (var i=0;i<fasteners.length;i++){
+			var fastener = new Option(fasteners[i],i);
+			fastenerIDList.options.add(fastener);
+		}
+	}
+}
 //每当canvas的高度改变时，画布清空
 function clearDraw(){
 	var c=document.getElementById("myCanvas");  

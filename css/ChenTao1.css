@@ -10,8 +10,8 @@ table {
     font-size: medium;
     font-family: Times New Roman, serif;
     letter-spacing:2px;
-    margin: 8px;
-    padding: 8px;
+    margin: 1px;
+    padding: 1px;
 }
 table caption {
     font-size: medium;
@@ -22,13 +22,15 @@ table caption {
     padding: 2px;
 }
 table th {
+	/*border: #333333 solid;*/
     font-size: medium;
     font-family: Verdana;
     font-weight: normal;
-    letter-spacing:2px;
-    margin: 8px;
-    padding: 8px;
-    text-align: left;
+    letter-spacing: 0px;
+    margin: 1px;
+    padding: 0px;
+	width:100px;
+    text-align: right;
 }
 table td {
     font-size: medium;
@@ -37,10 +39,10 @@ table td {
     letter-spacing:2px;
     margin: 8px;
     padding: 8px;
-    text-align: right;
+    text-align: left;
 }
 input[type="text"] {
-    width: 128px;
+    width: 100px;
 }
 
 #datainput{
