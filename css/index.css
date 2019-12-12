@@ -1,0 +1,33 @@
+.view{
+	padding:30px;
+	text-align: center;
+}
+.main{ 
+	list-style: none;
+}
+p{
+	margin: 5px 0;
+	font-size: 50px;
+	text-align: center;
+}
+.main li{
+	display: inline-block;
+	text-align: center;
+	margin:8px;
+}
+.main a{
+	display:inline-block;
+	font-size:30px; 
+	line-height:36px; 
+	color:#333; 
+	text-decoration:none;
+	border: 1px solid #ccc;
+	padding: 15px 20px;
+}
+.main a:hover{
+	color:#47A0DC;
+}
+.main .ChenTao{
+    /*margin-left: -1px;*/
+    background-color: transparent;
+}
