@@ -5,15 +5,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="zh-cn" />
 	<meta name="author" content="Chris">
-	<meta name="revised" content="Chris,07/12/2019">
-	<meta name="generator" content="HBuilder X 2.4.2">
+	<meta name="revised" content="Chris,16/12/2019">
+	<meta name="generator" content="HBuilder X 2.4.6">
 	<meta name="description" content="canvas画图">
 	<meta name="keywords" content="HTML5, canvas, 画图">
 	<link type="text/css" rel="stylesheet" href="../css/ChenTao2.css" />
 	<title>圆柱衬套</title>
 </head>
-<body>
-<h3 align="center">圆柱衬套</h3><hr><br>
+<body onload="empty()">
+<h3 align="center">圆柱衬套</h3><hr>
 <div id="datainput">
 	<form name="myForm">
 		<fieldset >
@@ -22,15 +22,36 @@
 				<caption>输入参数</caption>
 				<tr>
 					<th>
-						<label for="diameter">直径:</label>
+						<label for="fastenerType">紧固件类型:</label>
 					</th>
 					<td>
-						<input type="text" id="mydiameter" value="10.0" />
+						<select id="fastenerType" onchange="changeFastenerType()">
+							<option value="clinch">NAS1097铆钉</option>
+							<option value ="highLock-clearance">高锁-间隙配合</option>
+							<option value ="highLock-interference">高锁-标准干涉配合</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
 					<th>
-						<label for="height">高:</label>
+						<label for="fastenerID">紧固件大小:</label>
+					</th>
+					<td>
+						<select id="fastenerID" onchange='changeFastenerID()'>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<label for="myThickness">最小壁厚(单位in):</label>
+					</th>
+					<td>
+						<input type="text" id="myThickness" value="0.03"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<label for="height">高(单位mm):</label>
 					</th>
 					<td>
 						<input type="text" id="myheight" value="4.0" />
@@ -47,18 +68,15 @@
 		</fieldset>
 	</form>
 <div id="tip-label">
-	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label>
+	<hr >
+	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label><br>
+	<input type="radio" name="tips" onclick="displayTip(this.value)" value="ti" />钛合金
+	<input type="radio" name="tips" onclick="displayTip(this.value)" value="al2000" />铝合金2000系列
+	<input type="radio" name="tips" onclick="displayTip(this.value)" value="al7000" />铝合金7000系列<br>
 </div>
 <div id="tip">
 <textarea id = "mytip" rows="10" cols="40">
-附注： <br>
-1.材料：Ti-6Al-4V（退火），AMS6931; <br>
-2.未标注尺寸公差按HB5800-1999； <br>
-3.制造标准按ZPS04710-00000； <br>
-4.钛合金加工按ZPS04801-00000； <br>
-5.钛合金清洗按ZPS09290-00000；<br>
-6.表面粗糙度Ra3.2； <br>
-7.按ZPS03020-00000作标记。
+
 </textarea>
 </div>
 </div>
@@ -72,7 +90,108 @@
 
 </div>
 <script type="text/javascript">
-
+//根据选择radio改变附注文本域的值
+function displayTip(mat){
+	//console.log(mat);
+	//document.getElementById("mytip").value = mat;
+	switch (mat){
+		case "ti":
+			document.getElementById("mytip").value = 
+				"附注： <br>    \
+				 1.材料：Ti-6Al-4V（退火），AMS6931； <br>\
+				 2.未标注尺寸公差按HB5800-1999； <br>\
+				 3.制造标准按ZPS04710-00000； <br>\
+				 4.钛合金加工按ZPS04801-00000； <br>\
+				 5.钛合金清洗按ZPS09290-00000；<br>\
+				 6.表面粗糙度Ra3.2； <br>\
+				 7.按ZPS03020-00000作标记；<br>\
+				 8.图中尺寸未注单位：mm。"
+			break;
+		case "al2000":
+			document.getElementById("mytip").value =
+				"附注：<br>\
+				 1.材料：2024-T351，规范：AMS-QQ-A-225/6，规范、毛料按需；<br>\
+				 2.未标注尺寸公差按HB5800-1999；<br>\
+				 3.制造标准按ZPS04710-00300；<br>\
+				 4.表面粗糙度Ra3.2；<br>\
+				 5.按ZPS09450-00000涂MC膜层；<br>\
+				 6.零件标记按ZPS03020-00000；<br>\
+				 7.图中尺寸未注单位：mm。"
+			break;
+		case "al7000":
+			document.getElementById("mytip").value =
+				"附注：<br>\
+				 1.材料：7075-T651，规范：AMS-QQ-A-225/6，规范、毛料按需；<br>\
+				 2.未标注尺寸公差按HB5800-1999；<br>\
+				 3.制造标准按ZPS04710-00300；<br>\
+				 4.表面粗糙度Ra3.2；<br>\
+				 5.按ZPS09450-00000涂MC膜层；<br>\
+				 6.零件标记按ZPS03020-00000；<br>\
+				 7.图中尺寸未注单位：mm。"
+			break;
+	}
+}
+//将下拉框置空
+function empty()
+{
+	var x = document.getElementById("fastenerType");
+    x.selectedIndex = -1;
+}
+var fastenerNum = {};
+fastenerNum["clinch"] = ["NAS1097-3","NAS1097-4","NAS1097-5","NAS1097-6","NAS1097-8"];
+fastenerNum["highLock-clearance"] = ["高锁-5","高锁-6","高锁-8","高锁-10",
+									 "高锁-12","高锁-14","高锁-16","高锁-18","高锁-20"];
+fastenerNum["highLock-interference"] = ["高锁-5","高锁-6","高锁-8","高锁-10",
+									    "高锁-12","高锁-14","高锁-16","高锁-18","高锁-20"];
+//建立几个对象来存储铆钉号与孔径和窝径的对应关系
+var clinchHoleDiam = {'NAS1097-3':2.6162,'NAS1097-4':3.1036,'NAS1097-5':4.2164,
+					  'NAS1097-6':5.0292,'NAS1097-8':6.6802},
+	//高锁间隙配合直径与ID对应的对象
+	hcHoleDiam = {'高锁-5':4.242,'高锁-6':4.877,'高锁-8':6.4,'高锁-10':7.976,'高锁-12':9.563,
+				  '高锁-14':11.151,'高锁-16':12.738,'高锁-18':14.312,'高锁-20':15.9},
+	//高锁干涉配合直径与ID对应的对象
+	hiHoleDiam = {'高锁-5':4.127,'高锁-6':4.775,'高锁-8':6.299,'高锁-10':7.886,'高锁-12':9.474,
+				  '高锁-14':11.061,'高锁-16':12.649,'高锁-18':14.224,'高锁-20':15.881};
+//紧固件类型改变，铆钉号随着改变
+function changeFastenerType(){
+	var fastenerTypeList = document.getElementById("fastenerType");
+	var fastenerIDList = document.getElementById("fastenerID");
+	var selFastenerType = fastenerTypeList.options[fastenerTypeList.selectedIndex].value;
+	//console.log(selFastenerType);
+	while(fastenerIDList.options.length){
+		fastenerIDList.remove(0);
+	}
+	var fasteners = fastenerNum[selFastenerType];
+	if(fasteners){
+		for (var i=0;i<fasteners.length;i++){
+			//添加选项，参数:文本、值
+			var fastener = new Option(fasteners[i],fasteners[i]);
+			fastenerIDList.options.add(fastener);
+		}
+	}
+	//紧固件大小选框置空
+	var x = document.getElementById("fastenerID");
+	x.selectedIndex = -1;
+}
+//初始化孔径大小
+var holeDiam;
+//改变紧固件ID时改变孔径
+function changeFastenerID(){
+	var fastenerTypeList = document.getElementById("fastenerType");
+	//选择的紧固件类型
+	var selFastenerType = fastenerTypeList.options[fastenerTypeList.selectedIndex].value;
+	var fastenerIDList = document.getElementById("fastenerID");
+	//选择的铆钉号
+	var selFastenerID = fastenerIDList.options[fastenerIDList.selectedIndex].value;
+	//console.log(selFastenerID);
+	if (selFastenerType == "clinch") {
+		holeDiam = clinchHoleDiam[selFastenerID];
+	} else if (selFastenerType =="highLock-clearance"){
+		holeDiam = hcHoleDiam[selFastenerID];
+	} else{
+		holeDiam = hiHoleDiam[selFastenerID];
+	}
+}
 //每当canvas的高度改变时，画布清空
 function clearDraw(){
 	var c=document.getElementById("myCanvas");  
@@ -167,12 +286,13 @@ function onBtn1Click(){
 	drawpath();
 }
 function drawpath(){
-	var diam = document.getElementById("mydiameter").value,  //直径
+	var tn = document.getElementById("myThickness").value,   //壁厚
+		diam = holeDiam + tn * 25.4,						 //直径
 		hgt = document.getElementById("myheight").value,     //高
-		cf = 0.2,    //倒角
-		rd = diam/2,      //半径
-		scale = 320/diam,  	//放大倍数
-		cx = 380;             //圆心横坐标
+		cf = 0.2,    										 //倒角
+		rd = diam/2,      									 //半径
+		scale = 320/diam,  									 //放大倍数
+		cx = 380;             								 //圆心横坐标
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 	//画矩形
