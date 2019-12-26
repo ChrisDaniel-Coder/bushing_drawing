@@ -206,7 +206,6 @@ function changeFastenerID(){
 		dimpleDiam = clinchDimpleDiam[selFastenerID];
 	} else if (selFastenerType =="highLock-clearance"){
 		holeDiam = hcHoleDiam[selFastenerID];
-		//console.log(holeDiam);
 		dimpleDiam = hcDimpleDiam[selFastenerID];
 	} else{
 		holeDiam = hiHoleDiam[selFastenerID];
@@ -333,8 +332,7 @@ function onBtnDrawTwice(){
 }
 function drawpath(total){
 	var tn = document.getElementById("myThickness").value,   //壁厚
-		y = tn / Math.cos(50*Math.PI/180),
-		diam = holeDiam + y * 25.4 * 2,  						 //直径
+		diam = holeDiam + tn * 25.4,  						 //直径
 		hgt = document.getElementById("myheight").value,     //高
 		cf = (dimpleDiam - holeDiam) / 2 * Math.tan(40*Math.PI/180),   //倒角
 		rd = diam/2,      //半径
@@ -395,7 +393,7 @@ function drawpath(total){
 	ctx.fillText('0.1-0.2×45°', cx-scale*rd-140, 500+scale*hgt+40);
 	ctx.fillText('R0.2', cx-scale*rd-70, 500+15);
 	//带英寸的标注
-	var diam_in = (diam/25.4+0.0025).toFixed(4) + 'in - ' +(diam/25.4+0.0035).toFixed(4)+'in'
+	var diam_in = (diam/25.4+0.002).toFixed(4) + 'in - ' +(diam/25.4+0.003).toFixed(4)+'in'
 	ctx.fillText(diam_in, cx-scale*rd-140, 500+scale*hgt+100);
 	var tip=document.getElementById("mytip").value;
 	document.getElementById("show").innerHTML = tip;
