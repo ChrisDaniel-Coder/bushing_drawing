@@ -70,7 +70,8 @@
 	</form>
 <div id="tip-label">
 	<hr >
-	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label> <br>
+	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label> 
+	<input type="checkbox" onclick="displayCheckBox()" id="myCheckBox" />打开或关闭文本框<br>
 	<input type="radio" name="tips" onclick="displayTip(this.value)" value="ti" />钛合金
 	<input type="radio" name="tips" onclick="displayTip(this.value)" value="al2000" />铝合金2000系列
 	<input type="radio" name="tips" onclick="displayTip(this.value)" value="al7000" />铝合金7000系列<br>
@@ -91,6 +92,13 @@
 
 </div>
 <script type="text/javascript">
+function displayCheckBox(){
+	if (document.getElementById("myCheckBox").checked == true) {
+		document.getElementById("mytip").style.visibility = "visible";
+	} else{
+		document.getElementById("mytip").style.visibility = "hidden";
+	}
+}
 function displayTip(mat){
 	//console.log(mat);
 	//document.getElementById("mytip").value = mat;
@@ -136,6 +144,7 @@ function empty()
 {
 	var x = document.getElementById("fastenerType");
     x.selectedIndex = -1;
+	document.getElementById("mytip").style.visibility = "hidden";
 }
 
 var fastenerNum = {};
