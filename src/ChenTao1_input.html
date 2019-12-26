@@ -6,15 +6,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="zh-cn" />
     <meta name="author" content="Chris">
-    <meta name="revised" content="Chris,07/12/2019">
-    <meta name="generator" content="HBuilder X 2.4.2">
+    <meta name="revised" content="Chris,26/12/2019">
+    <meta name="generator" content="HBuilder X 2.4.6">
     <meta name="description" content="canvas画图">
     <meta name="keywords" content="HTML5, canvas, 画图">
-    <link type="text/css" rel="stylesheet" href="../css/ChenTao1.css" />
-    <title>埋头衬套</title>
+    <link type="text/css" rel="stylesheet" href="../css/ChenTao1_input.css" />
+    <title>埋头衬套(输入)</title>
 </head>
-<body>
-<h3 align="center">埋头衬套</h3><hr><br>
+<body onload="empty()">
+<h3 align="center">埋头衬套(输入)</h3><hr><br>
 <div id="datainput">
 	<form name = "myForm">
 		<fieldset>
@@ -56,18 +56,16 @@
 		</fieldset>
 	</form>
 <div id="tip-label">
-	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label>
+	<hr >
+	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label> 
+	<input type="checkbox" onclick="displayCheckBox()" id="myCheckBox" />打开或关闭文本框<br>
+	<input type="radio" name="tips" onclick="displayTip(this.value)" value="ti" />钛合金
+	<input type="radio" name="tips" onclick="displayTip(this.value)" value="al2000" />铝合金2000系列
+	<input type="radio" name="tips" onclick="displayTip(this.value)" value="al7000" />铝合金7000系列<br>
 </div>
 <div id="tip">
 <textarea id = "mytip" rows="10" cols="40">
-附注： <br>
-1.材料：Ti-6Al-4V（退火），AMS6931; <br>
-2.未标注尺寸公差按HB5800-1999； <br>
-3.制造标准按ZPS04710-00000； <br>
-4.钛合金加工按ZPS04801-00000； <br>
-5.钛合金清洗按ZPS09290-00000；<br>
-6.表面粗糙度Ra3.2； <br>
-7.按ZPS03020-00000作标记。
+
 </textarea>
 </div>
 </div>
@@ -82,6 +80,57 @@
 </div>
 <script type="text/javascript">
 
+function displayCheckBox(){
+	if (document.getElementById("myCheckBox").checked == true) {
+		document.getElementById("mytip").style.visibility = "visible";
+	} else{
+		document.getElementById("mytip").style.visibility = "hidden";
+	}
+}
+function displayTip(mat){
+	//console.log(mat);
+	//document.getElementById("mytip").value = mat;
+	switch (mat){
+		case "ti":
+			document.getElementById("mytip").value = 
+"附注： <br>\
+\n1.材料：Ti-6Al-4V（退火），AMS6931； <br>\
+\n2.未标注尺寸公差按HB5800-1999； <br>\
+\n3.制造标准按ZPS04710-00000； <br>\
+\n4.钛合金加工按ZPS04801-00000； <br>\
+\n5.钛合金清洗按ZPS09290-00000；<br>\
+\n6.表面粗糙度Ra3.2； <br>\
+\n7.按ZPS03020-00000作标记；<br>\
+\n8.图中尺寸未注单位：mm。"
+			break;
+		case "al2000":
+			document.getElementById("mytip").value =
+				"附注：<br>\
+\n1.材料：2024-T351，规范：AMS-QQ-A-225/6，规范、毛料按需；<br>\
+\n2.未标注尺寸公差按HB5800-1999；<br>\
+\n3.制造标准按ZPS04710-00300；<br>\
+\n4.表面粗糙度Ra3.2；<br>\
+\n5.按ZPS09450-00000涂MC膜层；<br>\
+\n6.零件标记按ZPS03020-00000；<br>\
+\n7.图中尺寸未注单位：mm。"
+			break;
+		case "al7000":
+			document.getElementById("mytip").value =
+				"附注：<br>\
+\n1.材料：7075-T651，规范：AMS-QQ-A-225/6，规范、毛料按需；<br>\
+\n2.未标注尺寸公差按HB5800-1999；<br>\
+\n3.制造标准按ZPS04710-00300；<br>\
+\n4.表面粗糙度Ra3.2；<br>\
+\n5.按ZPS09450-00000涂MC膜层；<br>\
+\n6.零件标记按ZPS03020-00000；<br>\
+\n7.图中尺寸未注单位：mm。"
+			break;
+	}
+}
+function empty()
+{
+	document.getElementById("mytip").style.visibility = "hidden";
+}
 //每当canvas的高度改变时，画布清空
 function clearDraw(){
 	var c=document.getElementById("myCanvas");  
@@ -196,9 +245,14 @@ function drawpath(){
 		hgt = document.getElementById("myheight").value,     //高
 		cf = document.getElementById("mychamfer").value,     //倒角
 		rd = diam/2,      //半径
-		scale = 160/diam,  	//放大倍数
+		scale = 0,  	//放大倍数
 		cx = 500,             //圆心横坐标
 		lr = rd + cf * Math.tan(50*Math.PI/180);   //大圆半径
+	if (diam/cf <4) {
+		scale = 120/diam;
+	} else{
+		scale = 160/diam;
+	}
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 	drawCircle(ctx,1.5,cx,200,scale*rd);
@@ -253,7 +307,7 @@ function drawpath(){
 	ctx.fillText('0.1-0.2×45°', cx-scale*rd-140, 500+scale*hgt+40);
 	ctx.fillText('R0.2', cx-scale*rd-70, 500+15);
 	//带英寸的标注
-	var diam_in = (diam/25.4+0.002).toFixed(4) + 'in - ' +(diam/25.4+0.003).toFixed(4)+'in'
+	var diam_in = (diam/25.4+0.0025).toFixed(4) + 'in - ' +(diam/25.4+0.0035).toFixed(4)+'in'
 	ctx.fillText(diam_in, cx-scale*rd-140, 500+scale*hgt+100);
 	var tip=document.getElementById("mytip").value;
 	document.getElementById("show").innerHTML = tip;

@@ -28,7 +28,7 @@ table th {
     letter-spacing:2px;
     margin: 8px;
     padding: 8px;
-    text-align: left;
+    text-align: right;
 }
 table td {
     font-size: medium;
@@ -37,10 +37,13 @@ table td {
     letter-spacing:2px;
     margin: 8px;
     padding: 8px;
-    text-align: right;
+    text-align: left;
+}
+td #mybutton1{
+	margin-right: 15px;
 }
 input[type="text"] {
-    width: 128px;
+    width: 100px;
 }
 
 #datainput{
@@ -50,6 +53,7 @@ input[type="text"] {
 	float:left;
 }
 #mytip{
+	margin-top: 10px;
 	text-align: left;
 	font-size: 16px;
 	line-height: 25px;
@@ -61,4 +65,7 @@ input[type="text"] {
 	font-family: "仿宋";
 	font-size: 30px;
 	line-height: 60px;
+}
+[value=ti]{
+	margin-top: 10px;
 }

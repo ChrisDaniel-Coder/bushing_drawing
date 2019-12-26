@@ -69,7 +69,8 @@
 	</form>
 <div id="tip-label">
 	<hr >
-	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label><br>
+	<label>附注输入:（<b>请不要删除&lt;br&gt;</b>）</label>
+	<input type="checkbox" onclick="displayCheckBox()" id="myCheckBox" />打开或关闭文本框<br>
 	<input type="radio" name="tips" onclick="displayTip(this.value)" value="ti" />钛合金
 	<input type="radio" name="tips" onclick="displayTip(this.value)" value="al2000" />铝合金2000系列
 	<input type="radio" name="tips" onclick="displayTip(this.value)" value="al7000" />铝合金7000系列<br>
@@ -90,6 +91,14 @@
 
 </div>
 <script type="text/javascript">
+
+function displayCheckBox(){
+	if (document.getElementById("myCheckBox").checked == true) {
+		document.getElementById("mytip").style.visibility = "visible";
+	} else{
+		document.getElementById("mytip").style.visibility = "hidden";
+	}
+}
 //根据选择radio改变附注文本域的值
 function displayTip(mat){
 	//console.log(mat);
@@ -97,37 +106,37 @@ function displayTip(mat){
 	switch (mat){
 		case "ti":
 			document.getElementById("mytip").value = 
-				"附注： <br>    \
-				 1.材料：Ti-6Al-4V（退火），AMS6931； <br>\
-				 2.未标注尺寸公差按HB5800-1999； <br>\
-				 3.制造标准按ZPS04710-00000； <br>\
-				 4.钛合金加工按ZPS04801-00000； <br>\
-				 5.钛合金清洗按ZPS09290-00000；<br>\
-				 6.表面粗糙度Ra3.2； <br>\
-				 7.按ZPS03020-00000作标记；<br>\
-				 8.图中尺寸未注单位：mm。"
+"附注： <br>\
+\n1.材料：Ti-6Al-4V（退火），AMS6931； <br>\
+\n2.未标注尺寸公差按HB5800-1999； <br>\
+\n3.制造标准按ZPS04710-00000； <br>\
+\n4.钛合金加工按ZPS04801-00000； <br>\
+\n5.钛合金清洗按ZPS09290-00000；<br>\
+\n6.表面粗糙度Ra3.2； <br>\
+\n7.按ZPS03020-00000作标记；<br>\
+\n8.图中尺寸未注单位：mm。"
 			break;
 		case "al2000":
 			document.getElementById("mytip").value =
 				"附注：<br>\
-				 1.材料：2024-T351，规范：AMS-QQ-A-225/6，规范、毛料按需；<br>\
-				 2.未标注尺寸公差按HB5800-1999；<br>\
-				 3.制造标准按ZPS04710-00300；<br>\
-				 4.表面粗糙度Ra3.2；<br>\
-				 5.按ZPS09450-00000涂MC膜层；<br>\
-				 6.零件标记按ZPS03020-00000；<br>\
-				 7.图中尺寸未注单位：mm。"
+\n1.材料：2024-T351，规范：AMS-QQ-A-225/6，规范、毛料按需；<br>\
+\n2.未标注尺寸公差按HB5800-1999；<br>\
+\n3.制造标准按ZPS04710-00300；<br>\
+\n4.表面粗糙度Ra3.2；<br>\
+\n5.按ZPS09450-00000涂MC膜层；<br>\
+\n6.零件标记按ZPS03020-00000；<br>\
+\n7.图中尺寸未注单位：mm。"
 			break;
 		case "al7000":
 			document.getElementById("mytip").value =
 				"附注：<br>\
-				 1.材料：7075-T651，规范：AMS-QQ-A-225/6，规范、毛料按需；<br>\
-				 2.未标注尺寸公差按HB5800-1999；<br>\
-				 3.制造标准按ZPS04710-00300；<br>\
-				 4.表面粗糙度Ra3.2；<br>\
-				 5.按ZPS09450-00000涂MC膜层；<br>\
-				 6.零件标记按ZPS03020-00000；<br>\
-				 7.图中尺寸未注单位：mm。"
+\n1.材料：7075-T651，规范：AMS-QQ-A-225/6，规范、毛料按需；<br>\
+\n2.未标注尺寸公差按HB5800-1999；<br>\
+\n3.制造标准按ZPS04710-00300；<br>\
+\n4.表面粗糙度Ra3.2；<br>\
+\n5.按ZPS09450-00000涂MC膜层；<br>\
+\n6.零件标记按ZPS03020-00000；<br>\
+\n7.图中尺寸未注单位：mm。"
 			break;
 	}
 }
@@ -136,6 +145,7 @@ function empty()
 {
 	var x = document.getElementById("fastenerType");
     x.selectedIndex = -1;
+	document.getElementById("mytip").style.visibility = "hidden";
 }
 var fastenerNum = {};
 fastenerNum["clinch"] = ["NAS1097-3","NAS1097-4","NAS1097-5","NAS1097-6","NAS1097-8"];
