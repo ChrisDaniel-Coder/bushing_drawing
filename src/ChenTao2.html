@@ -287,7 +287,7 @@ function onBtn1Click(){
 }
 function drawpath(){
 	var tn = document.getElementById("myThickness").value,   //壁厚
-		diam = holeDiam + tn * 25.4,						 //直径
+		diam = holeDiam + tn * 25.4 * 2,						 //直径
 		hgt = document.getElementById("myheight").value,     //高
 		cf = 0.2,    										 //倒角
 		rd = diam/2,      									 //半径
@@ -326,7 +326,7 @@ function drawpath(){
 	ctx.fillText(hgt, cx-scale*rd-6, 250+scale*hgt+scale*cf+30);
 	ctx.fillText("0.2mm×45°(2处)", cx+scale*rd+130, 250+scale*hgt+scale*cf+10);
 	//带英寸的标注
-	var diam_in = (diam/25.4+0.002).toFixed(4) + 'in - ' +(diam/25.4+0.003).toFixed(4)+'in'
+	var diam_in = (diam/25.4+0.0025).toFixed(4) + 'in - ' +(diam/25.4+0.0035).toFixed(4)+'in'
 	ctx.fillText(diam_in, cx, 250-scale*cf-50);
 	/*ctx.setLineDash([10,1]);
 	drawLine(ctx,0.6,cx,250-scale*cf-20,cx,250+scale*hgt+40);*/
