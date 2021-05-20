@@ -62,7 +62,7 @@
 					<td></td>
 					<td>
 						<input type="button" id="mybutton1" onclick="onBtnDrawTwice()" value="确定" />
-						<input type="button" id="mybutton2" onclick="clearDraw()" value="清除" />
+						<!-- <input type="button" id="mybutton2" onclick="clearDraw()" value="清除" /> -->
 					</td>
 				</tr>
 			</table>
@@ -321,6 +321,10 @@ function drawArcArrow(ctx,line_width,arc_x,arc_y){
 	arrowLean(ctx,arcR_x2,arcR_y2,arcR_x1,arcR_y1);
 }
 function onBtnDrawTwice(){
+	var c=document.getElementById("myCanvas");
+	var cxt=c.getContext("2d");  
+	c.height=c.height;
+	document.getElementById("show").innerHTML = " ";
 	var fastenerTypeList = document.getElementById("fastenerType");
 	//选择的紧固件类型
 	var selFastenerType = fastenerTypeList.options[fastenerTypeList.selectedIndex].value;

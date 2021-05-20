@@ -61,7 +61,7 @@
 					<td></td>
 					<td>
 						<input type="button" id="mybutton1" onclick="onBtn1Click()" value="确定"/>
-						<input type="button" id="mybutton2" onclick="clearDraw()" value="清除"/>
+						<!-- <input type="button" id="mybutton2" onclick="clearDraw()" value="清除"/> -->
 					</td>
 				</tr>
 			</table>
@@ -292,6 +292,10 @@ function drawArrow(ctx,line_width, cor_x1, cor_y1, cor_x2, cor_y2){
 	}
 }
 function onBtn1Click(){
+	var c=document.getElementById("myCanvas");
+	var cxt=c.getContext("2d");  
+	c.height=c.height;
+	document.getElementById("show").innerHTML = " ";
 	drawpath();
 	drawpath();
 }
